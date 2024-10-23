@@ -1,9 +1,14 @@
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "../resolvers/UserResolver";
+import { importResolvers } from "../resolvers";
 
 export const createSchema = async () => {
+  const resolvers = importResolvers();
+
   return await buildSchema({
-    resolvers: [UserResolver],
+    resolvers,
     validate: false,
+    authChecker: ({ context }) => {
+      return !!context.user;
+    },
   });
 };

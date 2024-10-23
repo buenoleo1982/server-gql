@@ -5,4 +5,8 @@ export interface GraphQLContext {
     id: string;
     email: string;
   };
+  operation?: {
+    parentType: any;
+    fieldName: string;
+  };
 }

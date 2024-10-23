@@ -3,3 +3,14 @@
 {"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T18:36:18.012Z","url":"http://localhost:4000/graphql"}
 {"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T18:36:20.385Z","url":"http://localhost:4000/graphql"}
 {"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T18:36:39.710Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:20:18.715Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:20:21.816Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:20:30.403Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:22:27.292Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:22:55.876Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:23:23.271Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:45:13.281Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:45:34.238Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:52:27.046Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:52:29.616Z","url":"http://localhost:4000/graphql"}
+{"level":"info","message":"Incoming request","method":"POST","timestamp":"2024-10-23T19:52:34.688Z","url":"http://localhost:4000/graphql"}
