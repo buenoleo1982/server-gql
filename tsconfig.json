@@ -13,5 +13,5 @@
     "emitDecoratorMetadata": true,
     "strict": true
   },
-  "include": ["src/**/*", "src/resolvers/user/__tests__"]
+  "include": ["src/**/*", "src/__tests__"]
 }

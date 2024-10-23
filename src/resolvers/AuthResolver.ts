@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Arg } from "type-graphql";
-import { AuthResponse } from "../../entities/Auth";
-import { generateToken } from "../../utils/auth";
-import { Public } from "../../decorators/auth";
+import { AuthResponse } from "../entities/Auth";
+import { generateToken } from "../utils/auth";
+import { Public } from "../decorators/auth";
 import { GraphQLError } from "graphql";
 
 @Resolver()

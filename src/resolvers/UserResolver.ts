@@ -1,7 +1,7 @@
 import { Resolver, Query, Ctx, Arg, Mutation } from "type-graphql";
-import { User } from "../../entities/User";
-import { GraphQLContext } from "../../types/context";
-import { Authorized, CurrentUser, Public } from "../../decorators/auth";
+import { User } from "../entities/User";
+import { GraphQLContext } from "../types/context";
+import { Authorized, CurrentUser, Public } from "../decorators/auth";
 
 @Resolver((of) => User)
 export class UserResolver {

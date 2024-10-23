@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-import { UserResolver } from "../UserResolver";
-import { User } from "../../../entities/User";
+import { UserResolver } from "../resolvers/UserResolver";
+import { User } from "../entities/User";
 
 // Mock the decorators
 vi.mock("type-graphql", () => ({
@@ -13,6 +13,7 @@ vi.mock("type-graphql", () => ({
   ObjectType: () => vi.fn(),
   ID: vi.fn(),
   UseMiddleware: () => vi.fn(),
+  createParameterDecorator: () => vi.fn(),
 }));
 
 vi.mock("../../../decorators/auth", () => ({
