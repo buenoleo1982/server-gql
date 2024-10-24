@@ -2,14 +2,16 @@ import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 export class AuthResponse {
-  @Field()
-  token: string;
+  @Field(() => String)
+  accessToken: string;
 
-  @Field()
+  @Field(() => String)
+  refreshToken: string;
+
+  @Field(() => String)
   user: string;
 
   constructor(data: Partial<AuthResponse>) {
-    this.token = data.token || "";
-    this.user = data.user || "";
+    Object.assign(this, data);
   }
 }
