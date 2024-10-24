@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { UserResolver } from "../resolvers/UserResolver";
 import { User } from "../entities/User";
+import { GraphQLContext } from "../types/context"; // Add this import
 
 // Mock the decorators
 vi.mock("type-graphql", () => ({
@@ -16,14 +17,15 @@ vi.mock("type-graphql", () => ({
   createParameterDecorator: () => vi.fn(),
 }));
 
-vi.mock("../../../decorators/auth", () => ({
+// Update the mock for auth decorators
+vi.mock("../decorators/auth", () => ({
   Authorized: () => vi.fn(),
   CurrentUser: () => vi.fn(),
   Public: () => vi.fn(),
 }));
 
 // Mock the User class
-vi.mock("../../../entities/User", () => ({
+vi.mock("../entities/User", () => ({
   User: class MockUser {
     id: string;
     name: string;
@@ -44,10 +46,14 @@ describe("UserResolver", () => {
 
   describe("users", () => {
     it("should return all users", async () => {
-      const currentUser = { id: "1", name: "Test User" };
-      const context = {} as any;
+      // Create a mock GraphQLContext
+      const mockContext: GraphQLContext = {
+        token: "mock-token",
+        datasource: "mock-datasource",
+        user: { id: "1", email: "test@example.com" },
+      };
 
-      const users = await userResolver.users(currentUser, context);
+      const users = await userResolver.users(mockContext);
 
       expect(users).toHaveLength(1);
       expect(users[0]).toBeInstanceOf(User);
@@ -73,11 +79,9 @@ describe("UserResolver", () => {
 
   describe("createUser", () => {
     it("should create a new user", async () => {
-      const currentUser = { id: "1", name: "Test User" };
       const newUser = await userResolver.createUser(
         "Jane Doe",
-        "jane@example.com",
-        currentUser
+        "jane@example.com"
       );
 
       expect(newUser).toBeInstanceOf(User);

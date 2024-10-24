@@ -1,7 +1,7 @@
 import { Resolver, Query, Ctx, Arg, Mutation } from "type-graphql";
 import { User } from "../entities/User";
 import { GraphQLContext } from "../types/context";
-import { Authorized, CurrentUser, Public } from "../decorators/auth";
+import { Authorized, Public } from "../decorators/auth";
 
 @Resolver((of) => User)
 export class UserResolver {
@@ -11,11 +11,8 @@ export class UserResolver {
 
   @Authorized()
   @Query(() => [User])
-  async users(
-    @CurrentUser() currentUser: any,
-    @Ctx() context: GraphQLContext
-  ): Promise<User[]> {
-    console.log("Current User:", currentUser);
+  async users(@Ctx() context: GraphQLContext): Promise<User[]> {
+    console.log("Current User:", context.user);
     return this.usersData;
   }
 
@@ -29,8 +26,7 @@ export class UserResolver {
   @Mutation(() => User)
   async createUser(
     @Arg("name") name: string,
-    @Arg("email") email: string,
-    @CurrentUser() currentUser: any
+    @Arg("email") email: string
   ): Promise<User> {
     const user = new User(
       String(this.usersData.length + 1),
