@@ -1,18 +1,19 @@
-import "reflect-metadata";
-import { createServer } from "node:http";
-import { createYoga } from "graphql-yoga";
-import { createSchema } from "./schema/schema";
-import { createContext } from "./middleware/auth";
-import { loggingPlugin } from "./middleware/logging";
+import { createYoga, YogaServerOptions } from 'graphql-yoga';
+import { createServer } from 'node:http';
+import 'reflect-metadata';
+import { createContext } from './middleware/auth';
+import { loggingPlugin } from './middleware/logging';
+import { createSchema } from './schema/schema';
+import type { GraphQLContext } from './types/context';
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === 'production';
 
-const serverUrl = isProduction ? process.env.NODE_ENV : "http://localhost:3000";
+const serverUrl = isProduction ? process.env.NODE_ENV : 'http://localhost:3000';
 
 async function bootstrap() {
   const schema = await createSchema();
 
-  const yogaConfig: any = {
+  const yogaConfig: YogaServerOptions<object, GraphQLContext> = {
     schema,
     context: createContext,
     plugins: [loggingPlugin],
@@ -22,7 +23,7 @@ async function bootstrap() {
   if (isProduction) {
     yogaConfig.cors = {
       origin: serverUrl,
-      methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
       credentials: true,
     };
   }

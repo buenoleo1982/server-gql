@@ -1,8 +1,8 @@
-import { buildSchema } from "type-graphql";
-import { importResolvers } from "../resolvers";
+import { buildSchema } from 'type-graphql';
+import { importResolvers } from '../resolvers';
 
 export const createSchema = async () => {
-  const resolvers = importResolvers();
+  const resolvers = await importResolvers();
 
   return await buildSchema({
     resolvers,

@@ -1,13 +1,10 @@
-import { YogaInitialContext } from "graphql-yoga";
-import { GraphQLContext } from "../types/context";
-import { verifyAccessToken } from "../utils/auth";
+import { YogaInitialContext } from 'graphql-yoga';
+import { GraphQLContext } from '../types/context';
+import { verifyAccessToken } from '../utils/auth';
 
-export const createContext = async ({
-  request,
-}: YogaInitialContext): Promise<GraphQLContext> => {
-  const token =
-    request.headers.get("authorization")?.replace("Bearer ", "") ?? null;
-  const datasource = request.headers.get("x-datasource") ?? null;
+export const createContext = async ({ request }: YogaInitialContext): Promise<GraphQLContext> => {
+  const token = request.headers.get('authorization')?.replace('Bearer ', '') ?? null;
+  const datasource = request.headers.get('x-datasource') ?? null;
 
   let user;
   if (token) {
