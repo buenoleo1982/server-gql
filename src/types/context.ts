@@ -5,7 +5,7 @@ export interface GraphQLContext {
   datasource: string | null;
   prisma: PrismaClient;
   user?: {
-    id: number;
+    id: string | number;
     email: string;
   };
 }

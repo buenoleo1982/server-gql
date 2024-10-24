@@ -1,6 +1,7 @@
 import { YogaInitialContext } from 'graphql-yoga';
 import { GraphQLContext } from '../types/context';
 import { verifyAccessToken } from '../utils/auth';
+import { prismaClient } from '../utils/prisma';
 
 export const createContext = async ({ request }: YogaInitialContext): Promise<GraphQLContext> => {
   const token = request.headers.get('authorization')?.replace('Bearer ', '') ?? null;
@@ -20,6 +21,7 @@ export const createContext = async ({ request }: YogaInitialContext): Promise<Gr
   return {
     token,
     datasource,
+    prisma: prismaClient,
     user,
   };
 };
