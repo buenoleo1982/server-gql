@@ -2,12 +2,11 @@ import { createLogger, format, transports } from "winston";
 import { YogaInitialContext } from "graphql-yoga";
 import { GraphQLContext } from "../types/context";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const logger = createLogger({
   format: format.combine(format.timestamp(), format.json()),
-  transports: [
-    new transports.Console(),
-    new transports.File({ filename: "logs/api.log" }),
-  ],
+  transports: [new transports.Console()],
 });
 
 export const loggingPlugin = {
