@@ -1,6 +1,6 @@
 import { Resolver, Mutation, Arg } from "type-graphql";
 import { AuthResponse } from "../entities/Auth";
-import { generateToken } from "../utils/auth";
+import { generateTokens, refreshAccessToken } from "../utils/auth";
 import { Public } from "../decorators/auth";
 import { GraphQLError } from "graphql";
 
@@ -11,8 +11,8 @@ export class AuthResolver {
   @Public()
   @Mutation(() => AuthResponse)
   async login(
-    @Arg("email") email: string,
-    @Arg("password") password: string
+    @Arg("email", () => String) email: string,
+    @Arg("password", () => String) password: string
   ): Promise<AuthResponse> {
     const user = this.users.find(
       (u) => u.email === email && u.password === password
@@ -27,11 +27,22 @@ export class AuthResolver {
       });
     }
 
-    const token = generateToken({ userId: user.id, email: user.email });
+    const { accessToken, refreshToken } = generateTokens({
+      userId: user.id,
+      email: user.email,
+    });
 
     return new AuthResponse({
-      token,
+      accessToken,
+      refreshToken,
       user: user.email,
     });
+  }
+
+  @Mutation(() => String, { nullable: true })
+  refreshToken(
+    @Arg("refreshToken", () => String) refreshToken: string
+  ): string | null {
+    return refreshAccessToken(refreshToken);
   }
 }

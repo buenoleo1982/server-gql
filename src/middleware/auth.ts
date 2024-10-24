@@ -1,6 +1,6 @@
 import { YogaInitialContext } from "graphql-yoga";
 import { GraphQLContext } from "../types/context";
-import { verifyToken } from "../utils/auth";
+import { verifyAccessToken } from "../utils/auth";
 
 export const createContext = async ({
   request,
@@ -11,7 +11,7 @@ export const createContext = async ({
 
   let user;
   if (token) {
-    const payload = verifyToken(token);
+    const payload = verifyAccessToken(token);
     if (payload) {
       user = {
         id: payload.userId,
