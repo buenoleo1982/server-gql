@@ -1,23 +1,23 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class User {
-  @Field(() => ID)
-  id: string;
-
   @Field()
-  name: string;
+  id: number;
 
-  @Field()
+  @Field(() => String)
+  username: string;
+
+  @Field(() => String)
   email: string;
+
+  @Field(() => String)
+  passhash: string;
 
   @Field(() => Date)
   createdAt: Date;
 
-  constructor(id: string, name: string, email: string, createdAt: Date) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.createdAt = createdAt;
+  constructor(data: Partial<User>) {
+    Object.assign(this, data);
   }
 }

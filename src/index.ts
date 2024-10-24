@@ -5,6 +5,7 @@ import { createContext } from './middleware/auth';
 import { loggingPlugin } from './middleware/logging';
 import { createSchema } from './schema/schema';
 import type { GraphQLContext } from './types/context';
+import { prismaClient } from './utils/prisma';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -15,7 +16,13 @@ async function bootstrap() {
 
   const yogaConfig: YogaServerOptions<object, GraphQLContext> = {
     schema,
-    context: createContext,
+    context: async (ctx) => {
+      const context = await createContext(ctx);
+      return {
+        ...context,
+        prisma: prismaClient,
+      };
+    },
     plugins: [loggingPlugin],
     graphiql: !isProduction,
   };

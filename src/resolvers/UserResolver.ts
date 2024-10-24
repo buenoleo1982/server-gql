@@ -1,31 +1,44 @@
+import { GraphQLError } from 'graphql';
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { Authorized, Public } from '../decorators/auth';
 import { User } from '../entities/User';
+import { CreateUserInput } from '../inputs/UserInput';
+import { UserService } from '../services/UserService';
 import { GraphQLContext } from '../types/context';
 
-@Resolver(() => User)
+@Resolver()
 export class UserResolver {
-  private usersData: User[] = [new User('1', 'John Doe', 'john@example.com', new Date())];
+  private userService: UserService;
 
-  @Authorized()
-  @Query(() => [User])
-  async users(@Ctx() context: GraphQLContext): Promise<User[]> {
-    console.log('Current User:', context.user);
-    return this.usersData;
+  constructor() {
+    this.userService = new UserService();
   }
 
   @Public()
-  @Query(() => User, { nullable: true })
-  async publicUser(@Arg('id') id: string): Promise<User | undefined> {
-    return this.usersData.find((user) => user.id === id);
+  @Mutation(() => User)
+  async createUser(
+    @Arg('data', () => CreateUserInput) data: CreateUserInput,
+    @Ctx() context: GraphQLContext,
+  ): Promise<User> {
+    return await this.userService.createUser(context.prisma, data);
   }
 
   @Authorized()
-  @Mutation(() => User)
-  async createUser(@Arg('name') name: string, @Arg('email') email: string): Promise<User> {
-    const user = new User(String(this.usersData.length + 1), name, email, new Date());
+  @Query(() => [User])
+  async getUsers(@Ctx() context: GraphQLContext): Promise<User[]> {
+    console.log('Current User:', context.user);
+    return await this.userService.getAllUsers(context.prisma);
+  }
 
-    this.usersData.push(user);
+  @Authorized()
+  @Query(() => User, { nullable: true })
+  async getUser(@Arg('id') id: number, @Ctx() context: GraphQLContext): Promise<User | undefined> {
+    const user = await this.userService.getUserById(context.prisma, id);
+    if (!user) {
+      throw new GraphQLError('User not found');
+    }
     return user;
   }
+
+  // Adicione outros métodos conforme necessário
 }

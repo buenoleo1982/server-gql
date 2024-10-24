@@ -1,12 +1,11 @@
+import type { PrismaClient } from '@prisma/client';
+
 export interface GraphQLContext {
   token: string | null;
   datasource: string | null;
+  prisma: PrismaClient;
   user?: {
-    id: string;
+    id: number;
     email: string;
   };
-  // operation?: {
-  //   parentType: unknown;
-  //   fieldName: string;
-  // };
 }

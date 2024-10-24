@@ -1,40 +1,26 @@
-import { GraphQLError } from 'graphql';
-import { Arg, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import { Public } from '../decorators/auth';
 import { AuthResponse } from '../entities/Auth';
-import { generateTokens, refreshAccessToken } from '../utils/auth';
+import { AuthService } from '../services/AuthService';
+import { GraphQLContext } from '../types/context';
+import { refreshAccessToken } from '../utils/auth';
 
 @Resolver()
 export class AuthResolver {
-  private users = [{ id: '1', email: 'leonardo@mail.com', password: '123456' }];
+  private authService: AuthService;
+
+  constructor() {
+    this.authService = new AuthService();
+  }
 
   @Public()
   @Mutation(() => AuthResponse)
   async login(
     @Arg('email', () => String) email: string,
     @Arg('password', () => String) password: string,
+    @Ctx() context: GraphQLContext,
   ): Promise<AuthResponse> {
-    const user = this.users.find((u) => u.email === email && u.password === password);
-
-    if (!user) {
-      throw new GraphQLError('Credenciais inválidas', {
-        extensions: {
-          code: 'UNAUTHORIZED',
-          http: { status: 401 },
-        },
-      });
-    }
-
-    const { accessToken, refreshToken } = generateTokens({
-      userId: user.id,
-      email: user.email,
-    });
-
-    return new AuthResponse({
-      accessToken,
-      refreshToken,
-      user: user.email,
-    });
+    return this.authService.login(context.prisma, email, password);
   }
 
   @Mutation(() => String, { nullable: true })
